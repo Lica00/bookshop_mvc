@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com">
+<head>
+<meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous" defer></script>  
+<title>Gestione Libri</title>
+</head>
+<body>
+	
+	<nav class="mb-5">
+	<h1 class="text-center my-4"> Gestione Libri </h1>
+	  <ul class="list-unstyled d-flex justify-content-between p-3 mx-auto border bg-light" style="width: 25%;">
+	    <li> <a th:href="@{/}"         class="btn btn-primary">Homepage</a> </li>
+	    <li> <a th:href="@{autori}"    class="btn btn-primary">Autori</a> </li>
+	    <li> <a th:href="@{libri}"     class="btn btn-primary">Libri</a> </li>
+	    <li> <a th:href="@{categorie}" class="btn btn-primary">Categorie</a></li>
+	  </ul>
+	</nav>
+	
+	
+	<main class="flex gap-5 w-1/2 mx-auto">
+	
+	 <!--  Tabella rappresenta libri -->
+	  <table class="table table-striped table-bordered align-middle">
+	    <thead class="table-light">
+	      <tr>
+	        <th scope="col">Id</th>
+	        <th scope="col">titolo</th>
+	        <th scope="col">autore</th>
+	        <th scope="col">categoria</th>
+	        <th scope="col">prezzo</th>
+	        <th scope="col">Elimina</th>
+	        <th scope="col">Modifica</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      <tr th:each="libro : ${listaLibri}">
+	        <td th:text="${libro.id}">      </td>
+	        <td th:text="${libro.title}">    </td>
+	        <td th:text="${libro.autore.name + ' ' +libro.autore.lastname}" class="px-6 py-4">   </td>
+            <td th:text="${libro.categoria.name}" class="px-6 py-4">   </td>
+	        <td th:text="${libro.price}"></td>        	
+	        <td> <a th:href="@{libri/delete? ( id=${libro.id} ) }" class="btn btn-danger btn-sm"> Elimina </a> </td>
+      	    <td> <a th:href="@{libri/update? ( id=${libro.id} ) }" class="btn btn-primary btn-sm">Modifica</a> </td>
+	      </tr>
+	    </tbody>
+	  </table>
+		  
+		
+	<!-- Form inserimento nuovo libro -->
+	<form class="w-25 mx-auto" method="POST" th:action="@{libri/save}" th:object="${libro}">
+	
+		<label for="t1" >Titolo</label>
+	    <input th:field="*{title}" type="text" id="t1" class="form-control" required />
+	    
+	   	<label for="t2">Prezzo</label>
+	    <input th:field="*{price}" type="text" id="t2" class="form-control" required />
+	    
+	    <label for="autore" class="form-label">Scegli un Autore</label>
+	    <select th:field="*{autore}" id="autore" class="form-select">
+	      <option th:each="aut : ${listaAutori}" th:text="${aut.name + ' ' + aut.lastname}" th:value="${aut.id}"></option>
+	    </select>
+	
+	    <label for="categoria" class="form-label">Scegli una Categoria</label>
+	    <select th:field="*{categoria}" id="categoria" class="form-select">
+	      <option th:each="cat : ${listaCategorie}" th:text="${cat.name}" th:value="${cat.id}"></option>
+	    </select>
+
+	  <button type="submit" class="btn btn-primary mt-3">Inserisci</button>
+	  
+	</form>
+	
+	
+	
+	</main>
+
+</body>
+</html>

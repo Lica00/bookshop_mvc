@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.com">
+<head>
+<meta charset="UTF-8">
+<title>Modifica Libro</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous" defer></script>  
+</head>
+<body>
+
+
+	<h1 class="text-center my-4"> Modifica Libro </h1>
+
+	<!-- Form pre-compilato con autore da modificare -->
+	<form class="w-25 mx-auto" method="POST" th:action="@{/libri/save}" th:object="${libro}">
+	
+		<input type="hidden" th:field="*{id}" />
+		
+		<label for="t1" >Titolo</label>
+	    <input th:field="*{title}" th:value="${libro.title}" type="text" id="t1" class="form-control" required />
+	    
+	   	<label for="t2">Prezzo</label>
+	    <input th:field="*{price}" th:value="${libro.price}" type="text" id="t2" class="form-control" required />
+	    
+	    <label for="autore" class="form-label"> Autore</label>
+	    <select th:field="*{autore}" id="autore" class="form-select">
+	      <option th:each="aut : ${listaAutori}" th:text="${aut.name + ' ' + aut.lastname}" th:value="${aut.id}"></option>
+	    </select>
+	
+	    <label for="categoria" class="form-label"> Categoria</label>
+	    <select th:field="*{categoria}" id="categoria" class="form-select">
+	      <option th:each="cat : ${listaCategorie}" th:text="${cat.name}" th:value="${cat.id}"></option>
+	    </select>
+
+  		<button type="submit" class="btn btn-primary mt-3">Inserisci</button>
+  
+	</form>
+	
+	
+</body>
+</html>
